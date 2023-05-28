@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Api List Supermercado</title>
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/samsung-sans-4');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: black;
+            color: white;
+            height: 100px;
+            font-family: monospace, "sans serif";
+        }
+
+        /*area of register*/
+        .list-cadastro {
+            text-align: center;
+            margin: 20px;
+        }
+
+        input {
+            padding: 15px;
+            margin: 10px;
+        }
+
+        .list-cadastro input[type=text] {
+            color: rgb(0, 0, 0, 0.7);
+            flex: 1;
+            width: 400px;
+        }
+
+        .list-cadastro input[type=submit] {
+            margin-top: 20px;
+        }
+
+        /*area of content*/
+        .listSingle,
+        .soma-produto {
+            font-family: 'samsung sans', 'sans serif';
+        }
+
+        .listSingle {
+            display: flex;
+            border-bottom: 1px solid #0dd8a5;
+            padding: 12px;
+        }
+
+        h3.name {
+            flex: 1;
+            margin-left: 30px;
+        }
+
+        h3.price-produto>span {
+            margin-right: 30px;
+            border-radius: 10px;
+            padding: 10px 40px;
+            color: white;
+            background: green;
+        }
+
+        .soma-produto {
+            font-size: 15pt;
+            font-weight: 700;
+            margin-left: 50px;
+        }
+        button{
+            margin-left:10px;
+            padding:18px;
+            background:#0dd8a5;
+            border:none;
+            border-radius:2px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h2>App lista de Supermecado</h2>
+    </header>
+    <!--area of content register-->
+    <div class="list-cadastro">
+        <input type="text" placeholder="Nome do Produto..." name="name_produto" />
+        <input type="text" placeholder="Valor do Produto" name="price_produto" />
+        <input type="submit" name="acao" value="cadastrar" />
+        <button name="limpar">Limpar</button>
+        <span class="soma-produto"> Total: R$<span> 0 </span></span>
+
+    </div>
+    <!--content area of producut-->
+    <div class="listProduto"></div>
+
+    <!--area of content sum =(soma)-->
+    
+
+    <!--JAVA SCRIPT-->
+    <script>
+        var items = [];
+
+        //função para guardar os dados ao serem clicado
+        document.querySelector('input[type=submit]').addEventListener('click', () => {
+
+            //identificar o input para pusha os dados
+            var nameProduct = document.querySelector('input[name=name_produto]');
+            var price = document.querySelector('input[name=price_produto]');
+
+
+            //pusha os dados cadastrado
+            items.push({
+                nome: nameProduct.value,
+                real: price.value
+            })
+            //Show list of product
+            let listProduct = document.querySelector('.listProduto');
+            let soma = 0;
+            //listProduct.innerHTML="" para nao poder ficar repetindo o mesmo dado já salvo.
+            listProduct.innerHTML = "";
+            items.map(function (val) {
+                soma += parseFloat(val.real);
+                listProduct.innerHTML += `
+                        <div class="listSingle">
+                        <h3 class="name">${val.nome}</h3>
+                        <h3 class="price-produto"><span>R$ ${val.real}</span></h3>
+                </div>
+            `})
+
+
+            soma = soma.toFixed(2);//casas decimais
+            //limpa os dados colocados anteriomente no input quando clicado para salvar.
+            nameProduct.value = "";
+            price.value = "";
+
+
+            let elementoSoma = document.querySelector('span.soma-produto span');
+            elementoSoma.innerHTML = `<span>${soma}</span>`;
+
+          
+
+
+        });
+        document.querySelector('button[name=limpar]')
+                .addEventListener('click', () => {
+                    items = [];
+                    document.querySelector('.listProduto').innerHTML = "";
+                    document.querySelector('span.soma-produto span').innerHTML = "";
+                })
+
+    </script>
+</body>
+
+</html>
